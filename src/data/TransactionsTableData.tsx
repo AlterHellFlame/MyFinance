@@ -1,30 +1,5 @@
-import { ColumnsType } from 'antd/es/table';
 import { ITransaction } from './interfaces/ITransaction';
-import { useState } from 'react';
 
-
-export const columns: ColumnsType<ITransaction> = [
-  {
-    title: 'Товар',
-    dataIndex: 'product',
-    key: 'product',
-    sorter: (a, b) => a.product.localeCompare(b.product),
-  },
-  {
-    title: 'Цена',
-    dataIndex: 'price',
-    key: 'price',
-    sorter: (a, b) => a.price - b.price,
-    render: (price: number) => `${price} руб.`,
-  },
-  {
-    title: 'Дата транзакции',
-    dataIndex: 'date',
-    key: 'date',
-    sorter: (a, b) => a.date.getTime() - b.date.getTime(),
-    render: (date: Date) => date.toLocaleDateString('ru-RU'),
-},
-];
 
 export const myTransactions: ITransaction[] = [
   {

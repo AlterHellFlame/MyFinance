@@ -1,25 +1,38 @@
 import { DatePicker, Form, Input, InputNumber, Modal } from "antd";
 import { ITransaction } from "../data/interfaces/ITransaction";
+import { useEffect } from "react";
+import dayjs from "dayjs";
 
 interface AddTransactionModalProp
 {
     open: boolean,
     onCancel: () => void;
-    onAddTransaction: (newTransaction: ITransaction) => void;
+    onEditTransaction: (updatedTransaction: ITransaction) => void;
+    transaction: ITransaction | null
 }
 
-export function AddTransactionModal({open, onCancel, onAddTransaction} : AddTransactionModalProp) {
+export function EditTransactionModal({open, onCancel, onEditTransaction, transaction} : AddTransactionModalProp) {
 
-    const handleAddTransaction = async () => {
+    useEffect(() => {
+        if (transaction && open) {
+            form.setFieldsValue({
+                product: transaction.product,
+                price: transaction.price,
+                date: dayjs(transaction.date) 
+            });
+        }
+    }, [transaction, open, Form]);
+
+    const handleEditTransaction = async () => {
     try {
       const values = await form.validateFields();
-      const newTransaction: ITransaction = {
+      const updatedTransaction: ITransaction = {
         ...values,
-        id: Date.now(),
+        id: transaction?.id,
         date: values.date.toDate()
       };
 
-      onAddTransaction(newTransaction);
+      onEditTransaction(updatedTransaction);
       onCancel();
       form.resetFields();
     } catch (error) {
@@ -35,7 +48,7 @@ export function AddTransactionModal({open, onCancel, onAddTransaction} : AddTran
     title="Новая транзакция"
     open={open}
     onCancel={onCancel}
-    onOk={handleAddTransaction}>
+    onOk={handleEditTransaction}>
 
      <Form form={form} layout="vertical">
           <Form.Item name="product" label="Продукт" rules={[{ required: true }]}>
