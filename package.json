@@ -1,5 +1,6 @@
 {
   "name": "my-finance",
+  "homepage": "https://alterhellflame.github.io/MyFinance/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
